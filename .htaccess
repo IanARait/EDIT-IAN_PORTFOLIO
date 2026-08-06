@@ -1,0 +1,7 @@
+RewriteEngine On
+
+# Redirect root to public
+RewriteRule ^$ public/ [L]
+
+# Prevent directory listing
+Options -Indexes
