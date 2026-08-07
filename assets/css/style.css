@@ -385,6 +385,12 @@ nav {
   object-fit: cover;
 }
 
+.placeholder-emoji {
+  font-size: 4.5rem;
+  opacity: 0.35;
+  filter: grayscale(0.4);
+}
+
 .play-overlay {
   position: absolute;
   inset: 0;

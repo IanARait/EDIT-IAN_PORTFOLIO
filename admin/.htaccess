@@ -1,8 +1,0 @@
-RewriteEngine On
-RewriteBase /my-portfolio/admin/
-
-# Handle assets
-RewriteRule ^assets/ - [L]
-
-# Prevent direct access to includes
-RewriteRule ^includes/ - [F,L]
