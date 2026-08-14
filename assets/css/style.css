@@ -796,19 +796,20 @@ footer a {
 /* ─── Social Links ───────────────────────────────── */
 .social-links {
   display: flex;
-  gap: 12px;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
 .social-link {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  justify-content: center;
-  width: 34px;
-  height: 34px;
+  gap: 7px;
+  padding: 7px 13px;
   border-radius: 8px;
   background: rgba(0, 230, 118, 0.1);
   color: var(--g);
-  font-size: 15px;
+  font-size: 13px;
+  white-space: nowrap;
   transition: all var(--transition);
 }
 
