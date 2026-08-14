@@ -567,6 +567,19 @@ nav {
   align-items: center;
   gap: 0.7rem;
   font-size: 0.9rem;
+  background: var(--card2);
+  border: 1px solid var(--border-c);
+  border-radius: var(--radius);
+  padding: 0.8rem 1.1rem;
+}
+
+.contact-item a {
+  color: var(--light);
+  word-break: break-all;
+}
+
+.contact-item a:hover {
+  color: var(--g);
 }
 
 .contact-icon {
