@@ -582,6 +582,65 @@ nav {
   color: var(--g);
 }
 
+.contact-form {
+  max-width: 560px;
+  margin: 2rem auto 0;
+  background: var(--card);
+  border: 1px solid var(--border-c);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.contact-form label {
+  display: block;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--gray);
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  background: var(--card2);
+  border: 1px solid var(--border-c);
+  border-radius: 8px;
+  padding: 10px 14px;
+  color: var(--light);
+  font-family: var(--font);
+  font-size: 14px;
+  margin-bottom: 1rem;
+  transition: border-color var(--transition);
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+  outline: none;
+  border-color: var(--g);
+}
+
+.contact-form textarea {
+  resize: vertical;
+}
+
+.form-submit {
+  margin-top: 0.5rem;
+}
+
+.form-status {
+  margin-top: 0.8rem;
+  font-size: 14px;
+  min-height: 20px;
+}
+
 .contact-icon {
   width: 34px;
   height: 34px;
@@ -913,6 +972,7 @@ footer a {
   .section { padding: 2.5rem 1.2rem; }
   .portfolio-grid { grid-template-columns: repeat(2, 1fr); gap: 0.75rem; }
   .contact-info { flex-direction: column; align-items: center; }
+  .form-row { grid-template-columns: 1fr; }
 
   .back-to-top {
     bottom: 20px;
