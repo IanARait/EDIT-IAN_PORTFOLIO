@@ -154,3 +154,26 @@
 .arcade-section .chess-piece{width:34px;height:30px;display:flex;align-items:center;justify-content:center;filter:drop-shadow(0 2px 2px rgba(0,0,0,0.35));}
 .arcade-section .chess-piece svg{width:100%;height:100%;}
 @media(prefers-reduced-motion:reduce){.arcade-section .cabinet-card{transition:none;}.arcade-section .cabinet-card:hover{transform:none;}}
+/* ─── Touch controls ───────────────────────────── */
+.arcade-section .touch-controls{
+  display:none;flex-direction:column;align-items:center;gap:8px;
+  margin-top:18px;user-select:none;-webkit-user-select:none;touch-action:manipulation;
+}
+.arcade-section .dpad-row{display:flex;gap:8px;justify-content:center;}
+.arcade-section .pad-btn{
+  width:56px;height:56px;border-radius:var(--radius);
+  background:var(--card2);border:1px solid var(--border-c);
+  color:var(--g);font-size:20px;font-family:var(--font);font-weight:700;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;
+  transition:background var(--transition),border-color var(--transition);
+}
+.arcade-section .pad-btn:active{background:var(--g);color:#000;border-color:var(--g);}
+.arcade-section .pad-btn.small{width:auto;padding:0 18px;height:48px;font-size:12px;letter-spacing:0.5px;}
+@media(pointer:coarse){.arcade-section .touch-controls{display:flex;}}
+@media(max-width:520px){
+  .arcade-section canvas{max-width:100%;height:auto;}
+  .arcade-section .tetris-layout{flex-direction:column;align-items:center;gap:10px;}
+  .arcade-section .tetris-side{flex-direction:row;align-items:center;gap:14px;padding-top:0;}
+  .arcade-section .tetris-layout .tetris-side:nth-child(3){flex-direction:row-reverse;}
+  .arcade-section .tetris-layout > canvas{order:1;}
+}

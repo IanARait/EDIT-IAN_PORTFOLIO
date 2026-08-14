@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded',function(){
   }
 
   function initSnake(container){
-    container.innerHTML='<div class="game-header"><button class="back-btn" id="backBtn">&larr; Cabinet Row</button><h2 class="game-title">SNAKE</h2><div class="status" id="snakeStatus">Score: 0</div></div><canvas id="snakeCanvas" width="400" height="400"></canvas><p class="hint">Arrow keys to move</p><button class="restart-btn" id="snakeRestart">Restart</button>';
+    container.innerHTML='<div class="game-header"><button class="back-btn" id="backBtn">&larr; Cabinet Row</button><h2 class="game-title">SNAKE</h2><div class="status" id="snakeStatus">Score: 0</div></div><canvas id="snakeCanvas" width="400" height="400"></canvas><p class="hint">Arrow keys to move</p><div class="touch-controls"><div class="dpad-row"><button class="pad-btn" data-dir="up" aria-label="Up">▲</button></div><div class="dpad-row"><button class="pad-btn" data-dir="left" aria-label="Left">◀</button><button class="pad-btn" data-dir="down" aria-label="Down">▼</button><button class="pad-btn" data-dir="right" aria-label="Right">▶</button></div></div><button class="restart-btn" id="snakeRestart">Restart</button>';
     var canvas=container.querySelector('#snakeCanvas'),ctx=canvas.getContext('2d'),statusEl=container.querySelector('#snakeStatus');
     var cell=20,cols=20,rows=20,snake,dir,nextDir,food,score,over,timer;
     function placeFood(){var ok=false;while(!ok){food={x:Math.floor(Math.random()*cols),y:Math.floor(Math.random()*rows)};ok=!snake.some(function(s){return s.x===food.x&&s.y===food.y;});}}
@@ -45,6 +45,15 @@ document.addEventListener('DOMContentLoaded',function(){
     function draw(){    ctx.fillStyle='#0a0a0a';ctx.fillRect(0,0,canvas.width,canvas.height);ctx.strokeStyle='rgba(238,238,238,0.06)';ctx.lineWidth=1;for(var x=0;x<=cols;x++){ctx.beginPath();ctx.moveTo(x*cell+0.5,0);ctx.lineTo(x*cell+0.5,canvas.height);ctx.stroke();}for(var y=0;y<=rows;y++){ctx.beginPath();ctx.moveTo(0,y*cell+0.5);ctx.lineTo(canvas.width,y*cell+0.5);ctx.stroke();}ctx.fillStyle='#e53935';ctx.fillRect(food.x*cell,food.y*cell,cell-2,cell-2);snake.forEach(function(s,i){ctx.fillStyle=i===0?'#00e676':'#00c853';ctx.fillRect(s.x*cell,s.y*cell,cell-2,cell-2);});}
     function keyHandler(e){var k=e.key;if(k==='ArrowUp'&&dir.y===0){nextDir={x:0,y:-1};e.preventDefault();}else if(k==='ArrowDown'&&dir.y===0){nextDir={x:0,y:1};e.preventDefault();}else if(k==='ArrowLeft'&&dir.x===0){nextDir={x:-1,y:0};e.preventDefault();}else if(k==='ArrowRight'&&dir.x===0){nextDir={x:1,y:0};e.preventDefault();}}
     window.addEventListener('keydown',keyHandler);
+    container.querySelectorAll('.pad-btn').forEach(function(b){
+      b.addEventListener('click',function(){
+        var d=b.dataset.dir;
+        if(d==='up'&&dir.y===0)nextDir={x:0,y:-1};
+        else if(d==='down'&&dir.y===0)nextDir={x:0,y:1};
+        else if(d==='left'&&dir.x===0)nextDir={x:-1,y:0};
+        else if(d==='right'&&dir.x===0)nextDir={x:1,y:0};
+      });
+    });
     container.querySelector('#snakeRestart').addEventListener('click',reset);
     container.querySelector('#backBtn').addEventListener('click',showMenu);
     reset();
@@ -52,7 +61,7 @@ document.addEventListener('DOMContentLoaded',function(){
   }
 
   function initTetris(container){
-    container.innerHTML='<div class="game-header"><button class="back-btn" id="backBtn">&larr; Cabinet Row</button><h2 class="game-title">TETRIS</h2><div class="status" id="tetrisStatus">Score: 0</div></div><div class="tetris-layout"><div class="tetris-side"><div class="next-label">HOLD</div><canvas id="tetrisHold" width="96" height="96"></canvas></div><canvas id="tetrisCanvas" width="240" height="480"></canvas><div class="tetris-side"><div class="next-label">NEXT</div><canvas id="tetrisNext" width="96" height="96"></canvas></div></div><p class="hint">&larr; &rarr; move · &uarr; rotate · &darr; soft drop · space hard drop · C hold</p><button class="restart-btn" id="tetrisRestart">Restart</button>';
+    container.innerHTML='<div class="game-header"><button class="back-btn" id="backBtn">&larr; Cabinet Row</button><h2 class="game-title">TETRIS</h2><div class="status" id="tetrisStatus">Score: 0</div></div><div class="tetris-layout"><div class="tetris-side"><div class="next-label">HOLD</div><canvas id="tetrisHold" width="96" height="96"></canvas></div><canvas id="tetrisCanvas" width="240" height="480"></canvas><div class="tetris-side"><div class="next-label">NEXT</div><canvas id="tetrisNext" width="96" height="96"></canvas></div></div><p class="hint">&larr; &rarr; move · &uarr; rotate · &darr; soft drop · space hard drop · C hold</p><div class="touch-controls"><div class="dpad-row"><button class="pad-btn small" data-act="hold" aria-label="Hold">HOLD</button><button class="pad-btn" data-act="rotate" aria-label="Rotate">⟳</button><button class="pad-btn small" data-act="harddrop" aria-label="Hard drop">DROP</button></div><div class="dpad-row"><button class="pad-btn" data-act="left" aria-label="Left">◀</button><button class="pad-btn" data-act="drop" aria-label="Soft drop">▼</button><button class="pad-btn" data-act="right" aria-label="Right">▶</button></div></div><button class="restart-btn" id="tetrisRestart">Restart</button>';
     var canvas=container.querySelector('#tetrisCanvas'),ctx=canvas.getContext('2d');
     var nextCanvas=container.querySelector('#tetrisNext'),nctx=nextCanvas.getContext('2d');
     var holdCanvas=container.querySelector('#tetrisHold'),hctx=holdCanvas.getContext('2d');
@@ -79,6 +88,18 @@ document.addEventListener('DOMContentLoaded',function(){
     function reset(){board=Array.from({length:rows},function(){return Array(cols).fill(null);});score=0;over=false;next=null;heldPiece=null;holdUsed=false;statusEl.textContent='Score: 0';drawHold();spawnNext();lastDrop=null;if(raf)cancelAnimationFrame(raf);raf=requestAnimationFrame(loop);}
     function keyHandler(e){if(over)return;if(e.key==='ArrowLeft'){move(-1);e.preventDefault();}else if(e.key==='ArrowRight'){move(1);e.preventDefault();}else if(e.key==='ArrowDown'){drop();e.preventDefault();}else if(e.key==='ArrowUp'){rotate();e.preventDefault();}else if(e.key===' '){hardDrop();e.preventDefault();}else if(e.key==='c'||e.key==='C'||e.key==='Shift'){hold();e.preventDefault();}draw();}
     window.addEventListener('keydown',keyHandler);
+    container.querySelectorAll('.pad-btn').forEach(function(b){
+      b.addEventListener('click',function(){
+        var a=b.dataset.act;
+        if(a==='left')move(-1);
+        else if(a==='right')move(1);
+        else if(a==='rotate')rotate();
+        else if(a==='drop')drop();
+        else if(a==='harddrop')hardDrop();
+        else if(a==='hold')hold();
+        draw();
+      });
+    });
     container.querySelector('#tetrisRestart').addEventListener('click',reset);
     container.querySelector('#backBtn').addEventListener('click',showMenu);
     reset();
@@ -105,7 +126,7 @@ document.addEventListener('DOMContentLoaded',function(){
   }
 
   function initMaze(container){
-    container.innerHTML='<div class="game-header"><button class="back-btn" id="backBtn">&larr; Cabinet Row</button><h2 class="game-title">MAZE</h2><div class="status" id="mazeStatus">Level 1 — find the exit</div><div class="maze-timer" id="mazeTimer">0:00</div></div><div class="maze-frame"><canvas id="mazeCanvas" width="420" height="420"></canvas></div><p class="hint">Arrow keys / WASD to move · 3 levels · the clock does not care about you</p><button class="restart-btn" id="mazeRestart">Restart</button>';
+    container.innerHTML='<div class="game-header"><button class="back-btn" id="backBtn">&larr; Cabinet Row</button><h2 class="game-title">MAZE</h2><div class="status" id="mazeStatus">Level 1 — find the exit</div><div class="maze-timer" id="mazeTimer">0:00</div></div><div class="maze-frame"><canvas id="mazeCanvas" width="420" height="420"></canvas></div><p class="hint">Arrow keys / WASD to move · 3 levels · the clock does not care about you</p><div class="touch-controls"><div class="dpad-row"><button class="pad-btn" data-dir="up" aria-label="Up">▲</button></div><div class="dpad-row"><button class="pad-btn" data-dir="left" aria-label="Left">◀</button><button class="pad-btn" data-dir="down" aria-label="Down">▼</button><button class="pad-btn" data-dir="right" aria-label="Right">▶</button></div></div><button class="restart-btn" id="mazeRestart">Restart</button>';
     var canvas=container.querySelector('#mazeCanvas'),ctx=canvas.getContext('2d');
     var statusEl=container.querySelector('#mazeStatus'),timerEl=container.querySelector('#mazeTimer');
     var LEVELS=[{cols:9,rows:9},{cols:13,rows:13},{cols:19,rows:19}];
@@ -193,6 +214,15 @@ document.addEventListener('DOMContentLoaded',function(){
       if(handled)e.preventDefault();
     }
     window.addEventListener('keydown',keyHandler);
+    container.querySelectorAll('.pad-btn').forEach(function(b){
+      b.addEventListener('click',function(){
+        var d=b.dataset.dir;
+        if(d==='up')move(-1,0);
+        else if(d==='down')move(1,0);
+        else if(d==='left')move(0,-1);
+        else if(d==='right')move(0,1);
+      });
+    });
     container.querySelector('#mazeRestart').addEventListener('click',reset);
     container.querySelector('#backBtn').addEventListener('click',showMenu);
     reset();
